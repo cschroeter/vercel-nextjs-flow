@@ -1,0 +1,17 @@
+name: My awesome pipeline
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # env:
+    #   DATABASE_URL: ${{ secrets.DATABASE_URL }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: volta-cli/action@v
+
+      - name: Install
+        run: yarn install --frozen-lockfile
+
+      - name: Build Website
+        run: yarn build
