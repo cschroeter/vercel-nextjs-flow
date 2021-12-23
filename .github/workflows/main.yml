@@ -1,5 +1,11 @@
-name: CI/CD
-on: [push, pull_request]
+name: Pipeline
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   main:
