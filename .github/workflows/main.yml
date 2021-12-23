@@ -18,6 +18,7 @@ jobs:
 
       - name: Deploy preview
         uses: amondnet/vercel-action@v20
+        id: preview
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
@@ -26,7 +27,7 @@ jobs:
 
       - name: Integration Tests
         env:
-          PREVIEW_URL: ${{ steps.deploy-vercel-staging.outputs.preview-url }}
+          PREVIEW_URL: ${{ steps.preview.outputs.preview-url }}
         run: echo "Running integration tests against $PREVIEW_URL"
 
       - name: Deploy production
