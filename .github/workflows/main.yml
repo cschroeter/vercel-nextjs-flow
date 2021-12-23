@@ -2,7 +2,7 @@ name: CI/CD
 on: [push, pull_request]
 
 jobs:
-  build:
+  main:
     runs-on: ubuntu-latest
     # env:
     #   DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -16,10 +16,25 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Deploy
+      - name: Deploy preview
         uses: amondnet/vercel-action@v20
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          scope: ${{ secrets.VERCEL_ORG_ID }}
+
+      - name: Integration Tests
+        env:
+          PREVIEW_URL: ${{ steps.deploy-vercel-staging.outputs.preview-url }}
+        run: echo "Running integration tests against $PREVIEW_URL"
+
+      - name: Deploy production
+        uses: amondnet/vercel-action@v20
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: "--prod"
           scope: ${{ secrets.VERCEL_ORG_ID }}
