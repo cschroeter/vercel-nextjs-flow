@@ -1,4 +1,4 @@
-name: My awesome pipeline
+name: CI/CD
 on: [push, pull_request]
 
 jobs:
@@ -13,5 +13,13 @@ jobs:
       - name: Install
         run: yarn install --frozen-lockfile
 
-      - name: Build Website
+      - name: Build
         run: yarn build
+
+      - name: Deploy
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_TL_ENGINE }}
+          scope: ${{ secrets.VERCEL_ORG_ID }}
