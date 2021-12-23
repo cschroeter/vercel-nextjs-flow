@@ -8,7 +8,7 @@ jobs:
     #   DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - uses: actions/checkout@v2
-      - uses: volta-cli/action@v
+      - uses: volta-cli/action@v1
 
       - name: Install
         run: yarn install --frozen-lockfile
