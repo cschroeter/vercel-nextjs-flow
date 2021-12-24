@@ -13,7 +13,7 @@ jobs:
     # env:
     #   DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
-      - name: Get yarn cache directory path
+      - name: Prepare Cache
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
